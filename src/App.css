@@ -45,7 +45,70 @@
   margin: 10px 0px;
 }
 
+.app-menu {
+  margin-bottom: 15px;
+}
+
 .app-heading {
   font-size: 300%;
   font-weight: 700;
+}
+
+.app-heading-cal {
+  margin-left: 10px;
+}
+
+.app-sub-heading {
+  color: #888;
+  margin-bottom: 0.5em;
+  margin-top: 0;
+  text-rendering: optimizeSpeed;
+  width: 100%;
+  font-weight: 700;
+  font-size: 1.6em;
+}
+.form-wrap{
+  box-shadow: 0px 0px 10px 0px lightgray;
+    padding: 50px;
+    text-align: center;
+    margin: 30px 0px;
+    border-radius: 5px;   
+}
+.form-wrap .form-group{
+  margin-bottom: 30px;
+}
+.form-wrap .form-border{
+  border: 1px solid gray;
+  padding:40px 15px;
+  margin: 20px 0px;
+  position: relative;
+}
+.sales-tax-border{
+  position: absolute;
+    left: 50%;
+    top: -20px;
+    transform: translateX(-50%);
+    background: black;
+    width: 100px;
+    padding: 12px;
+    color: white;
+}
+.reset{
+  background-color: #000;
+  color: white;
+  border: none;
+}
+.calculator-value{
+  color: #888;
+  font-size: 26px;
+  font-weight: 800;
+}
+.calculator-value .price{
+  color: red;
+}
+.price-green{
+  color: green;
+}
+.percentage{
+  font-size: 20px;
 }

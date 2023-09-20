@@ -1,4 +1,11 @@
 import companyLogo from "../../assets/images/logo.jpg";
+import usFlag from "../../assets/images/flags/small-flag/american-small.svg";
+import ekFlag from "../../assets/images/flags/small-flag/uk-small.svg";
+import ausFlag from "../../assets/images/flags/small-flag/australia-small.svg";
+import canFlag from "../../assets/images/flags/small-flag/canada-small.svg";
+import gerFlag from "../../assets/images/flags/small-flag/german-small.svg";
+import frsFlag from "../../assets/images/flags/small-flag/france-small.svg";
+import itFlag from "../../assets/images/flags/small-flag/italy.svg";
 
 const menuItems = [
   {
@@ -13,11 +20,11 @@ const menuItems = [
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: usFlag,
     dropdownArr: [
       {
         title: "eBay US",
-        href: "/",
+        href: "/usa-ebay-calculator",
       },
       {
         title: "PayPal US",
@@ -57,18 +64,34 @@ const menuItems = [
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: ekFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay Uk",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "Paypal UK",
         href: "/",
       },
       {
-        title: "Something else here",
+        title: "Amazon UK",
+        href: "/",
+      },
+      {
+        title: "Etsy UK",
+        href: "/",
+      },
+      {
+        title: "Depop UK",
+        href: "/",
+      },
+      {
+        title: "Copart UK",
+        href: "/",
+      },
+      {
+        title: "Stripe UK",
         href: "/",
       },
     ],
@@ -77,100 +100,80 @@ const menuItems = [
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: ausFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay AU",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "Paypal AU",
         href: "/",
-      },
-      {
-        title: "Something else here",
-        href: "/",
-      },
+      }
     ],
   },
   {
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: canFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay CA",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "PayPal CA",
         href: "/",
-      },
-      {
-        title: "Something else here",
-        href: "/",
-      },
+      }
     ],
   },
   {
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: gerFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay DE",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "Paypal DE",
         href: "/",
-      },
-      {
-        title: "Something else here",
-        href: "/",
-      },
+      }
     ],
   },
   {
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: frsFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay FR",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "PayPal FR",
         href: "/",
-      },
-      {
-        title: "Something else here",
-        href: "/",
-      },
+      }
     ],
   },
   {
     menuHeading: "",
     isDropDown: true,
     isMenuImage: true,
-    menuImagePath: companyLogo,
+    menuImagePath: itFlag,
     dropdownArr: [
       {
-        title: "Action",
+        title: "eBay IT",
         href: "/",
       },
       {
-        title: "Another Action",
+        title: "Paypal IT",
         href: "/",
-      },
-      {
-        title: "Something else here",
-        href: "/",
-      },
+      }
     ],
   },
   {

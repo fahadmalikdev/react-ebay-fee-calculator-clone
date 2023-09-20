@@ -28,7 +28,7 @@ const homeLayout = (ChildComponent) => {
                 alt="Company Logo"
               />
             </div>
-            <div className="app-menu">
+            <div className="mb-5">
               <MainMenu />
             </div>
             <div className="app-child-content">

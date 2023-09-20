@@ -1,6 +1,13 @@
 {
-    "header": {
-        "message": "Fee Calculators for Sellers"
+    "HomePageheader": {
+        "heading": "Fee Calculators for Sellers",
+        "subHeading": "Calculate merchant fees & profit when selling through eBay, PayPal, Amazon, Etsy",
+        "subHeadingSecond": "& more"
+    },
+    "UsaEbayCalculatorPageheader": {
+        "heading": "US eBay Fee Calculator",
+        "subHeading": "Calculate final value fees & profit when selling on eBay.com!",
+        "subHeadingSecond": "Up-to-date as of Jun 20 2023"
     },
     "home": {
         "body": "A store design for all your pet needs"

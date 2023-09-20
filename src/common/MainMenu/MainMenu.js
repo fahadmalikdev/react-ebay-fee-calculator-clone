@@ -18,7 +18,7 @@ const MainMenu = () => {
     return menuItems.map((item, index) => {
       if (item.isDropDown && item.isMenuImage) {
         return (
-          <li className="nav-item" key={index}>
+          <li className="nav-item flag-svg-logo" key={index}>
             <div className="dropdown">
               <button
                 className="btn btn-secondary dropdown-toggle"
@@ -28,11 +28,10 @@ const MainMenu = () => {
                 aria-expanded="false"
               >
                 <img
-                  className="app-logo"
                   src={item.menuImagePath}
-                  width={20}
-                  height={10}
-                  alt="Company Logo"
+                  width={25}
+                  height={25}
+                  alt="Flag"
                 />
               </button>
               <ul
@@ -46,7 +45,7 @@ const MainMenu = () => {
         );
       } else if (!item.isDropDown && !item.isMenuImage) {
         return (
-          <li className="nav-item" key={index}>
+          <li className="nav-item flag-svg-logo" key={index}>
             <a className="btn btn-secondary" href={item.href}>
               {item.menuHeading}
             </a>
@@ -58,7 +57,7 @@ const MainMenu = () => {
   };
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+    <nav className="navbar navbar-expand-lg navbar-light">
       <div className="container-fluid">
         <div
           className="collapse navbar-collapse justify-content-center"

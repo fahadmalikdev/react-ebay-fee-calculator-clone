@@ -1,0 +1,10 @@
+.flag-svg-logo{
+    margin: 0px 0px;
+    height: 20px;
+}
+.flag-svg-logo .dropdown .dropdown-toggle, .flag-svg-logo .btn-secondary {
+    background-color: white !important;
+}
+.btn-secondary{
+    color: #000 !important;
+}
