@@ -1,80 +1,70 @@
 import "./MainMenu.css";
 import React from "react";
+import menuItems from "./MenuItems";
 
 const MainMenu = () => {
-  return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarCenteredExample"
-          aria-controls="navbarCenteredExample"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="fas fa-bars"></i>
-        </button>
+  
+  const renderSubMenuItems = (dropdownArr) => {
+    return dropdownArr.map((submenu, submenuIndex) => (
+      <li key={submenuIndex}>
+        <a className="dropdown-item" href={submenu.href}>
+          {submenu.title}
+        </a>
+      </li>
+    ));
+  };
 
-        <div
-          class="collapse navbar-collapse justify-content-center"
-          id="navbarCenteredExample"
-        >
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                Home
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">
-                Link
-              </a>
-            </li>
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-mdb-toggle="dropdown"
+  const renderMenuItems = () => {
+    return menuItems.map((item, index) => {
+      if (item.isDropDown && item.isMenuImage) {
+        return (
+          <li className="nav-item" key={index}>
+            <div className="dropdown">
+              <button
+                className="btn btn-secondary dropdown-toggle"
+                type="button"
+                id={`dropdownMenuButton${index}`}
+                data-bs-toggle="dropdown"
                 aria-expanded="false"
               >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Action
-                  </a>
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Another action
-                  </a>
-                </li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="#">
-                    Something else here
-                  </a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link disabled"
-                href="#"
-                tabindex="-1"
-                aria-disabled="true"
+                <img
+                  className="app-logo"
+                  src={item.menuImagePath}
+                  width={20}
+                  height={10}
+                  alt="Company Logo"
+                />
+              </button>
+              <ul
+                className="dropdown-menu"
+                aria-labelledby={`dropdownMenuButton${index}`}
               >
-                Disabled
-              </a>
-            </li>
-          </ul>
+                {renderSubMenuItems(item.dropdownArr)}
+              </ul>
+            </div>
+          </li>
+        );
+      } else if (!item.isDropDown && !item.isMenuImage) {
+        return (
+          <li className="nav-item" key={index}>
+            <a className="btn btn-secondary" href={item.href}>
+              {item.menuHeading}
+            </a>
+          </li>
+        );
+      }
+      return null;
+    });
+  };
+
+  return (
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <div className="container-fluid">
+        <div
+          className="collapse navbar-collapse justify-content-center"
+          id="navbarCenteredExample"
+        >
+          <ul className="navbar-nav mb-2 mb-lg-0">{renderMenuItems()}</ul>
         </div>
       </div>
     </nav>
