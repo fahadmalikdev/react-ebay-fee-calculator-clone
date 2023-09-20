@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  text-align: center;
+}
+
+.app-logo {
+  margin: 10px 0px;
+}
+
+.app-heading {
+  font-size: 300%;
+  font-weight: 700;
+}

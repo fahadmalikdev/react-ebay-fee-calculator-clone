@@ -1,0 +1,33 @@
+/* Language Select Dropdown Start */
+.custom-select-container {
+    position: relative;
+    display: inline-block;
+}
+  
+.custom-select {
+    padding: 8px 12px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+  
+.custom-select:hover {
+    background-color: #dbdbdb;
+}
+  
+.custom-select:focus {
+    outline: none;
+}
+  
+.custom-select option {
+    padding: 8px;
+    background-color: #fff;
+    cursor: pointer;
+}
+  
+.custom-select option:hover {
+    background-color: #f0f0f0;
+    cursor: pointer;
+}
+/* Language Select Dropdown End */
