@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
+import itemCategories from "./usaEbayCalculatorData";
 
 const UsaEbayCalculator = () => {
-  // Step 1: Create state to store values
   const [formData, setFormData] = useState({
     soldPrice: 0,
     shippingCharged: 0,
@@ -16,10 +16,10 @@ const UsaEbayCalculator = () => {
     calculationMethod: "percentage",
     salesTaxAmount: 0,
     salesTaxIncludeShipping: "yes",
-    itemCategory: "Everything else",
+    itemCategory: "everythingelse",
+    subCategory: ""
   });
 
-  // Step 2: Event handlers for input and dropdown onChange
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
@@ -30,32 +30,99 @@ const UsaEbayCalculator = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  // Step 3: Calculation function
+  const getParentOptions = () => {
+    return itemCategories.map((category) => (
+      (category.selected)
+      ? <option key={category.value} value={category.value} selected>{category.displayName}</option>
+      : <option key={category.value} value={category.value}>{category.displayName}</option>
+    ));
+  };
+
   const calculateValues = () => {
+    let feePercentage;
     const soldPrice = parseFloat(formData.soldPrice);
+    const shippingCharged = parseFloat(formData.shippingCharged);
+    const itemCost = parseFloat(formData.itemCost);
+    const shippingCost = parseFloat(formData.shippingCost);
+
     const numberOfOrders = parseFloat(formData.numberOfOrders);
-  
+    const ebayStore = formData.ebayStore;
+    const sellerLevel= formData.sellerLevel;
+
+    const overseaSales = formData.overseaSales;
+    const promotedAdRate = parseFloat(formData.promotedAdRate);
+    const donatedToCharity = parseFloat(formData.donatedToCharity);
+
+    const calculationMethod = formData.calculationMethod;
+    const salesTaxAmount = parseFloat(formData.salesTaxAmount);
+    const salesTaxIncludeShipping = formData.salesTaxIncludeShipping
+
+
+    const selectedCategoryObj = itemCategories.find((category) => category.value === formData.itemCategory);
+    const selectedSubcategoryObj = selectedCategoryObj?.childArr.find((child) => child.value === formData.subCategory);
+
+    console.log("Selected Parent Category:", selectedCategoryObj);
+    console.log("Selected Child Category:", selectedSubcategoryObj);
+
+    if(selectedCategoryObj){
+      if(selectedCategoryObj?.value === 'everythingelse'){
+        if(ebayStore === 'no') {
+          if(soldPrice < selectedCategoryObj.percentageValue.sellerLevel.portionUpAmount) {
+            feePercentage = selectedCategoryObj.percentageValue.sellerLevel.portionUpPercent;
+          } else {
+            feePercentage = selectedCategoryObj.percentageValue.sellerLevel.portionAbovePercent;
+          }
+        } else {
+          if(soldPrice < selectedCategoryObj.percentageValue.ebayStore.portionUpAmount) {
+            feePercentage = selectedCategoryObj.percentageValue.ebayStore.portionUpPercent;
+          } else {
+            feePercentage = selectedCategoryObj.percentageValue.ebayStore.portionAbovePercent;
+          }
+        }
+      } else if(selectedSubcategoryObj?.value === 'art'){
+        feePercentage = selectedCategoryObj.childArr[0].percentageValue.sellerLevel.percentageValue;
+      }
+    }
     
-    const ebayFee = (soldPrice * 0.1325) + (numberOfOrders * 0.30);
-    const feePercentage = ((ebayFee / soldPrice) * 100).toFixed(2);
+    const feePercentageParsed = parseFloat(feePercentage).toFixed(2);
+    const ebayFee = ((((soldPrice + shippingCharged) * numberOfOrders) / 100) * feePercentageParsed) + (numberOfOrders * 0.30);
+
+    // Old Code:
+    // const ebayFee = (soldPrice * 0.1325) + (numberOfOrders * 0.30);
+    // const feePercentage = ((ebayFee / soldPrice) * 100).toFixed(2);
     const feePercentageV = (numberOfOrders * 0.30).toFixed(2);
-  
-    const salesTax = (parseFloat(formData.salesTaxAmount) / 100).toFixed(2);
-    const totalProfit = (soldPrice - ebayFee - (soldPrice * salesTax)).toFixed(2);
-    const profitMargin = (((totalProfit - soldPrice * salesTax) / soldPrice) * 100).toFixed(2);
-  
+
+    // Sales Tax Calculation
+    let salesTax;
+    let salesTaxInitalY = (soldPrice + shippingCharged) * numberOfOrders;
+    let salesTaxInitalN = (soldPrice * numberOfOrders);
+    if(calculationMethod === 'percentage') {
+      if(salesTaxIncludeShipping === 'yes'){
+        salesTax = (salesTaxInitalY / 100) * salesTaxAmount;
+      } else {
+        salesTax = (salesTaxInitalN / 100) * salesTaxAmount;
+      }
+    } else {
+      salesTax = salesTaxAmount;
+    }
+    
+    // const salesTax = ((soldPrice * numberOfOrders) + shippingCharged).toFixed(2);
+    // const totalProfit = (soldPrice - ebayFee - (soldPrice * salesTax)).toFixed(2);
+    // const profitMargin = (((totalProfit - soldPrice * salesTax) / soldPrice) * 100).toFixed(2);
+
+    const totalProfit = (((soldPrice + shippingCharged) * numberOfOrders) - ((itemCost + shippingCost) * numberOfOrders)) - ebayFee;
+    const profitMargin = (totalProfit * 100) / ((soldPrice + shippingCharged) * numberOfOrders);
+
     return {
       ebayFee: ebayFee.toFixed(2),
-      feePercentage,
+      feePercentage: feePercentageParsed,
       feePercentageV,
-      salesTax,
-      totalProfit,
-      profitMargin,
+      salesTax: salesTax.toFixed(2),
+      totalProfit: parseFloat(totalProfit).toFixed(2),
+      profitMargin: parseFloat(profitMargin).toFixed(2)
     };
   };
   
-
-  // State to store result values
   const [resultValues, setResultValues] = useState({
     ebayFee: 0,
     feePercentage: 0,
@@ -65,7 +132,6 @@ const UsaEbayCalculator = () => {
     profitMargin: 0,
   });
 
-  // Step 4: Render the result values
   useEffect(() => {
     setResultValues(calculateValues());
   }, [formData]);
@@ -263,72 +329,58 @@ const UsaEbayCalculator = () => {
                 />
               </div>
             </div>
-            <div className="col-md-4">
-              <div className="form-group">
-                <label>Sales tax includes shipping?</label>
-                <select id="sales-tax-include-shipping" name="salesTaxIncludeShipping" className="form-control" value={formData.salesTaxIncludeShipping} onChange={handleDropdownChange}>
-                  <option value="yes">
-                    Yes
-                  </option>
-                  <option value="no">No</option>
-                </select>
+            { formData.calculationMethod === 'percentage' && (
+              <div className="col-md-4">
+                <div className="form-group">
+                  <label>Sales tax includes shipping?</label>
+                  <select id="sales-tax-include-shipping" name="salesTaxIncludeShipping" className="form-control" value={formData.salesTaxIncludeShipping} onChange={handleDropdownChange}>
+                    <option value="yes">
+                      Yes
+                    </option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
           </div>
 
-          <div className="row justify-content-center mt-5">
+          <div className="row justify-content-center mt-5 mb-5">
             <div className="col-md-6">
               <label>Item category</label>
               <select id="item-category" name="itemCategory" className="form-control" value={formData.itemCategory} onChange={handleDropdownChange}>
-                <option value="Everything else">Everything else</option>
-                <option value="2.12">Antiques</option>
-                <option value="Art">Art</option>
-                <option value="2">Baby</option>
-                <option value="1">Books &amp; Magazines</option>
-                <option value="Business &amp; Industrial">Business &amp; Industrial</option>
-                <option value="Cameras &amp; Photo">Cameras &amp; Photo</option>
-                <option value="Cell Phones &amp; Accessories">Cell Phones &amp; Accessories</option>
-                <option value="Clothing, Shoes &amp; Accessories">Clothing, Shoes &amp; Accessories</option>
-                <option value="Coins &amp; Paper Money">Coins &amp; Paper Money</option>
-                <option value="Collectibles">Collectibles</option>
-                <option value="Computers/Tablets &amp; Networking">Computers/Tablets &amp; Networking</option>
-                <option value="Consumer Electronics">Consumer Electronics</option>
-                <option value="2">Crafts</option>
-                <option value="2">Dolls &amp; Bears</option>
-                <option value="eBay Motors">eBay Motors</option>
-                <option value="2">Entertainment Memorabilia</option>
-                <option value="2">Health &amp; Beauty</option>
-                <option value="2">Home &amp; Garden</option>
-                <option value="Jewelry &amp; Watches">Jewelry &amp; Watches</option>
-                <option value="Movies &amp; TV">Movies &amp; TV</option>
-                <option value="Music">Music</option>
-                <option value="Musical Instruments &amp; Gear">Musical Instruments &amp; Gear</option>
-                <option value="2">Pet Supplies</option>
-                <option value="2">Pottery &amp; Glass</option>
-                <option value="2">Specialty Services</option>
-                <option value="2">Sporting Goods</option>
-                <option value="Sports Mem, Cards &amp; Fan Shop">Sports Mem, Cards &amp; Fan Shop</option>
-                <option value="5.1">Stamps</option>
-                <option value="Toys &amp; Hobbies">Toys &amp; Hobbies</option>
-                <option value="Video Games &amp; Consoles">Video Games &amp; Consoles</option>
+                {getParentOptions()}
               </select>
             </div>
           </div>
-          <div className="row justify-content-center mt-3 mb-5">
-            {/* <div className="col-md-6">
-              <label>Clothing, Shoes & Accessories subcategory</label>
-              <select id="dropdown" name="role" className="form-control" required>
-                <option disabled selected value>
-                  Select
-                </option>
-                <option value="student">Student</option>
-                <option value="job">Full Time Job</option>
-                <option value="learner">Full Time Learner</option>
-                <option value="preferNo">Prefer not to say</option>
-                <option value="other">Other</option>
-              </select>
-            </div> */}
-          </div>
+          {itemCategories
+            .find((category) => category.value === formData.itemCategory)
+            ?.haveChild && (
+            <div className="row justify-content-center mb-5">
+              <div className="row justify-content-center">
+                <div className="col-md-6">
+                  {formData.itemCategory !== "Everything else" && (
+                    <label>{formData.itemCategory} subcategory</label>
+                  )}
+                  <select
+                    id="sub-category"
+                    name="subCategory"
+                    className="form-control"
+                    value={formData.subCategory}
+                    onChange={handleDropdownChange}
+                  >
+                    <option value="" disabled selected>Select</option>
+                    {itemCategories
+                      .find((category) => category.value === formData.itemCategory)
+                      ?.childArr.map((child) => (
+                        <option key={child.value} value={child.value}>
+                          {child.displayName}
+                        </option>
+                      ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
 
           <div className="row calculator-value">
             <div className="col-md-4">
