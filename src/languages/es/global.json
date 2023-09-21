@@ -1,8 +1,12 @@
 {
-    "header": {
-        "message": "Gebührenrechner für Verkäufer"
+    "HomePageheader": {
+        "heading": "Gebührenrechner für Verkäufer",
+        "subHeading": "Calcule las tarifas comerciales y las ganancias al vender a través de eBay, PayPal, Amazon, Etsy",
+        "subHeadingSecond": "& más"
     },
-    "home": {
-        "body": "Una tiena pensada para todas las necesidades de tus mascotas"
+    "UsaEbayCalculatorPageheader": {
+        "heading": "Calculadora de tarifas de eBay de EE. UU.",
+        "subHeading": "¡Calcule las tarifas del valor final y las ganancias al vender en eBay.com!",
+        "subHeadingSecond": "Actualizado a partir del 20 de junio de 2023"
     }
 }
